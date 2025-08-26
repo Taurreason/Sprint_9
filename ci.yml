@@ -2,6 +2,7 @@ name: CI
 
 on:
   push:
+    branches: [ develop, main ]
   pull_request:
 
 jobs:
@@ -34,7 +35,7 @@ jobs:
       - name: Wait for Selenoid to be ready
         run: |
           for i in {1..30}; do
-            curl -s http://localhost:4444/status | grep -q '"ready": true' && break
+            curl -s http://localhost:4444/status | grep -q '"chrome"' && break
             sleep 2
           done
           curl -s http://localhost:4444/status
