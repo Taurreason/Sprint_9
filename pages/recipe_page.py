@@ -37,22 +37,18 @@ class RecipePage(BasePage):
 
     def input_description_recipe(self):
         self.find(RecipePageLocators.RECIPE_DESCRIPTION_INPUT).send_keys(TestData.RECIPE.description)
-
+  
     def pick_milk_from_suggest(self):
-            self.find(RecipePageLocators.SUGGEST_LIST)          # ждём появление выпадашки
-            el = self.find(RecipePageLocators.MILK_OPTION)      # берём именно «молоко»
-            try:
-                el.click()
-            except Exception:
-                self.driver.execute_script("arguments[0].click();", el)
+        self.choose_from_suggest(
+            RecipePageLocators.SUGGEST_LIST,
+            RecipePageLocators.MILK_OPTION
+        )
 
     def pick_flour_from_suggest(self):
-            self.find(RecipePageLocators.SUGGEST_LIST)          # ждём появление выпадашки
-            el = self.find(RecipePageLocators.FLOUR_OPTION)      # берём именно «мука»
-            try:
-                el.click()
-            except Exception:
-                self.driver.execute_script("arguments[0].click();", el)
+        self.choose_from_suggest(
+            RecipePageLocators.SUGGEST_LIST,
+            RecipePageLocators.FLOUR_OPTION
+        )
 
     def upload_recipe_photo(self):
         self.upload_file(RecipePageLocators.FILE_INPUT, "pancakes.jpg")

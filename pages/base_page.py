@@ -90,3 +90,7 @@ class BasePage:
 
     def scroll_into_view(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", element)
+
+    def choose_from_suggest(self, list_locator, option_locator):
+        self.find(list_locator)      # дождались появления списка
+        self.click(option_locator)   # клик
