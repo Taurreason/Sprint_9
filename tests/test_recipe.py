@@ -33,4 +33,4 @@ class TestRecipePage:
             recipe_page.click_to_create_recipe()
         with allure.step('Проверяем название рецепта, список ингридиентов, наличие кнопки Добавить в покупки'):
             ingredients = recipe_page.get_recipe_ingredients()
-            assert recipe_page.get_recipe_title_text() == RECIPE_TITLE_TEXT and INGREDIENT_LIST == ingredients and recipe_page.is_add_to_list_visible()
+            assert recipe_page.get_recipe_title_text() == TestData.RECIPE.title and TestData.RECIPE.ingredient_displays == ingredients and recipe_page.is_add_to_list_visible()

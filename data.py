@@ -1,17 +1,66 @@
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import List
 
 
-EMAIL = 'weiwei@blizzard.lich'
-PASSWORD = '14881488q'
 
-INGREDIENT_TEXT_1 = 'молоко'
-INGREDIENT_TEXT_2 = 'мука'
-INGREDIENT_1_WEIGHT_TEXT = '100'
-INGREDIENT_2_WEIGHT_TEXT = '300'
+@dataclass(frozen=True)
+class Credentials:
+    email: str
+    password: str
 
-INGREDIENT_LIST = ['молоко - 100 г', 'мука - 300 г']
-RECIPE_TITLE_TEXT = 'Блинчики'
-COOKING_TIME_TEXT = '5'
-DESCRIPTION_RECIPE_TEXT = 'смешать'
 
-ASSETS_DIR = Path.cwd() / "assets"
+# Ингредиенты и рецепт
+@dataclass
+class Ingredient:
+    name: str
+    weight_g: int
+
+    def as_display(self) -> str:
+        return f"{self.name} - {self.weight_g} г"
+
+
+@dataclass
+class Recipe:
+    title: str
+    cooking_time_min: int
+    description: str
+    ingredients: List[Ingredient] = field(default_factory=list)
+
+    @property
+    def ingredient_names(self) -> List[str]:
+        return [i.name for i in self.ingredients]
+
+    @property
+    def ingredient_displays(self) -> List[str]:
+        return [i.as_display() for i in self.ingredients]
+
+
+# Пути к ассетам
+class Assets:
+
+    DIR = Path.cwd() / "assets"
+
+    @staticmethod
+    def file(name: str) -> Path:
+        return (Assets.DIR / name).resolve()
+
+
+# Тестовая сборка
+class TestData:
+    CREDENTIALS = Credentials(
+        email="weiwei@blizzard.lich",
+        password="14881488q",
+    )
+
+    RECIPE = Recipe(
+        title="Блинчики",
+        cooking_time_min=5,
+        description="смешать",
+        ingredients=[
+            Ingredient("молоко", 100),
+            Ingredient("мука", 300),
+        ],
+    )
+
+    ASSETS = Assets

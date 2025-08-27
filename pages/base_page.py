@@ -83,10 +83,10 @@ class BasePage:
         return self.wait.until(EC.presence_of_element_located(locator))
         
     def upload_file(self, locator, filename):
-        path = (ASSETS_DIR / filename).resolve()
-        assert path.exists(), f"Файл не найден: {path}"   # <-- важная проверка
+        path = (Assets.DIR / filename).resolve()
+        assert path.exists(), f"Файл не найден: {path}"
 
-        el = self.find_present(locator).send_keys(str(path))                 # без ожиданий
+        el = self.find_present(locator).send_keys(str(path))
 
     def scroll_into_view(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", element)

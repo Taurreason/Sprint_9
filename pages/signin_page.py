@@ -1,4 +1,4 @@
-from data import EMAIL, PASSWORD
+from data import *
 from locators.signin_page_locators import SigninPageLocators
 from pages.base_page import BasePage
 from service import site
@@ -12,10 +12,10 @@ class SigninPage(BasePage):
         self.open_url(site.signin)
 
     def input_email(self):
-        self.find(SigninPageLocators.EMAIL_FIELD).send_keys(EMAIL)
+        self.find(SigninPageLocators.EMAIL_FIELD).send_keys(TestData.CREDENTIALS.email)
 
     def input_password(self):
-        self.find(SigninPageLocators.PASSWORD_FIELD).send_keys(PASSWORD)
+        self.find(SigninPageLocators.PASSWORD_FIELD).send_keys(TestData.CREDENTIALS.password)
 
     def check_visibility_signin_form(self):
         return bool(self.find(SigninPageLocators.SIGNIN_FORM))

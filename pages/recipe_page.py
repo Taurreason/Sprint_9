@@ -2,7 +2,7 @@ from locators.recipe_page_locators import RecipePageLocators
 from pages.base_page import BasePage
 from data import *
 
-from service import site
+# from service import site
 
 
 class RecipePage(BasePage):
@@ -15,28 +15,28 @@ class RecipePage(BasePage):
         self.click(RecipePageLocators.CREATE_RECIPE_LINK)
 
     def input_recipe_title(self):
-        self.find(RecipePageLocators.RECIPE_TITLE_INPUT).send_keys(RECIPE_TITLE_TEXT)
+        self.find(RecipePageLocators.RECIPE_TITLE_INPUT).send_keys(TestData.RECIPE.title)
 
     def input_recipe_ingredient_name_1(self):
-        self.find(RecipePageLocators.INGREDIENTS_INPUT_NAME).send_keys(INGREDIENT_TEXT_1)
+        self.find(RecipePageLocators.INGREDIENTS_INPUT_NAME).send_keys(TestData.RECIPE.ingredients[0].name)
 
     def input_recipe_ingredient_weight_1(self):
-        self.find(RecipePageLocators.INGREDIENTS_INPUT_WEIGHT).send_keys(INGREDIENT_1_WEIGHT_TEXT)
+        self.find(RecipePageLocators.INGREDIENTS_INPUT_WEIGHT).send_keys(str(TestData.RECIPE.ingredients[0].weight_g))
 
     def input_recipe_ingredient_name_2(self):
-        self.find(RecipePageLocators.INGREDIENT_INPUT_ADDITIONAL_FIELD).send_keys(INGREDIENT_TEXT_2)
+        self.find(RecipePageLocators.INGREDIENT_INPUT_ADDITIONAL_FIELD).send_keys(TestData.RECIPE.ingredients[1].name)
 
     def input_recipe_ingredient_weight_2(self):
-        self.find(RecipePageLocators.INGREDIENTS_INPUT_ADDITIONAL_WEIGHT).send_keys(INGREDIENT_2_WEIGHT_TEXT)
+        self.find(RecipePageLocators.INGREDIENTS_INPUT_ADDITIONAL_WEIGHT).send_keys(str(TestData.RECIPE.ingredients[1].weight_g))
 
     def click_add_ingredient(self):
         self.click(RecipePageLocators.ADD_INGREDIENT)
 
     def input_cooking_time(self):
-        self.find(RecipePageLocators.COOKING_TIME_INPUT).send_keys(COOKING_TIME_TEXT)
+        self.find(RecipePageLocators.COOKING_TIME_INPUT).send_keys(str(TestData.RECIPE.cooking_time_min))
 
     def input_description_recipe(self):
-        self.find(RecipePageLocators.RECIPE_DESCRIPTION_INPUT).send_keys(DESCRIPTION_RECIPE_TEXT)
+        self.find(RecipePageLocators.RECIPE_DESCRIPTION_INPUT).send_keys(TestData.RECIPE.description)
 
     def pick_milk_from_suggest(self):
             self.find(RecipePageLocators.SUGGEST_LIST)          # ждём появление выпадашки
