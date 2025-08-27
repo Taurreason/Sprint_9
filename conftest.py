@@ -13,17 +13,14 @@ from pages.recipe_page import RecipePage
 from helpers import *
 from service import *
 
-# SELENOID_URL = os.getenv("SELENOID_URL", "http://localhost:4444/wd/hub")
-
 
 @pytest.fixture
 def driver():
     options = webdriver.ChromeOptions()
     # полезные флаги для контейнеров
     options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")     # на всякий случай
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
-    # options.add_argument("--headless=new")  # без VNC лучше явно headless
 
     # версия браузера и selenoid-опции
     options.set_capability("browserName", "chrome")
@@ -43,8 +40,6 @@ def driver():
     command_executor = os.getenv("SELENOID_URL", "http://localhost:4444/wd/hub")
     drv = webdriver.Remote(command_executor=command_executor, options=options)
     drv.file_detector = LocalFileDetector()
-    # drv.set_page_load_timeout(90)
-
     drv.set_window_size(1366, 900)
     yield drv
     drv.quit()
