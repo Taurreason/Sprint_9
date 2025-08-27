@@ -94,3 +94,9 @@ class BasePage:
     def choose_from_suggest(self, list_locator, option_locator):
         self.find(list_locator)      # дождались появления списка
         self.click(option_locator)   # клик
+
+    def get_current_url(self):
+        return self.driver.current_url
+
+    def url_contains(self, part):
+        return part in self.get_current_url()

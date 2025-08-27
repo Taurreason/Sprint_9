@@ -16,7 +16,7 @@ class MainPage(BasePage):
     
     def wait_recipes_page_is_open(self):
         self.wait_open_url(site.recipes)
-        return site.recipes in self.driver.current_url
+        return self.url_contains(site.recipes)
 
     def check_exit_button(self):
         return bool(self.find(MainPageLocators.EXIT_BUTTON))
