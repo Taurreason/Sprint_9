@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Pull Selenoid images
+        run: |
+          docker pull aerokube/selenoid:latest-release
+          docker pull aerokube/selenoid-ui:latest-release
+          docker pull selenoid/vnc:chrome_128.0
+
+      - name: Start Selenoid & UI
+        run: docker compose up -d selenoid selenoid-ui
+
+      - name: Wait for Selenoid to be ready
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:4444/status | grep -q '"chrome"' && break
+            sleep 2
+          done
+          curl -s http://localhost:4444/status
+
+      - name: Run tests (Remote WebDriver)
+        env:
+          SELENOID_URL: http://localhost:4444/wd/hub
+        run: |
+          pytest -q --maxfail=1 --disable-warnings \
+                 --junitxml=reports/junit.xml || exit 1
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-reports
+          path: |
+            reports/**
+            allure-results/**
+
+      - name: Stop containers
+        if: always()
+        run: docker compose down -v
